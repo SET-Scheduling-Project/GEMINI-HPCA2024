@@ -1,1 +1,2 @@
-Please replicate the results following the AE Appendix in corresponding HPCA 2024 papers.
+Please follow the AE Appendix in corresponding HPCA 2024 paper "Gemini: Mapping and Architecture Co-exploration for Large-scale DNN Chiplet Accelerators" to initiate the framework. 
+We supplement the scripts of DSE for 72TOPs, 128TOPs, and 512TOPs.
