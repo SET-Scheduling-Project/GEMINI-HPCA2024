@@ -1,0 +1,1412 @@
+{
+   "Conv_0": {
+      "layer_index": 1,
+      "name": "Conv_0",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            3,
+            224,
+            224
+         ],
+         [
+            64,
+            3,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         64,
+         224,
+         224
+      ],
+      "quant_info": {
+         "input_scale1": 0.01865844801068306,
+         "input_zero_point1": 14.0,
+         "output_scale": 30.985462188589043,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_0_k.npy",
+         "b": "Conv_0_b.npy",
+         "input_activation1": "Conv_0_input_activation1.npy",
+         "input_activation2": "Conv_0_input_activation2.npy",
+         "output_activation1": "Conv_0_output_activation1.npy"
+      },
+      "previous_layer": [
+         "input1",
+         "constant_features.0.weight"
+      ],
+      "next_layer": [
+         "Conv_3"
+      ],
+      "ori_name": "Relu_2"
+   },
+   "Conv_3": {
+      "layer_index": 2,
+      "name": "Conv_3",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            64,
+            224,
+            224
+         ],
+         [
+            64,
+            64,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         64,
+         224,
+         224
+      ],
+      "quant_info": {
+         "input_scale1": 0.032273199409246445,
+         "input_zero_point1": 128.0,
+         "output_scale": 36.69358668794723,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_3_k.npy",
+         "b": "Conv_3_b.npy",
+         "input_activation1": "Conv_3_input_activation1.npy",
+         "input_activation2": "Conv_3_input_activation2.npy",
+         "output_activation1": "Conv_3_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_0",
+         "constant_features.3.weight"
+      ],
+      "next_layer": [
+         "MaxPool_6"
+      ],
+      "ori_name": "Relu_5"
+   },
+   "MaxPool_6": {
+      "layer_index": 3,
+      "name": "MaxPool_6",
+      "operation": "max_pool2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "pool_size": [
+         2,
+         2
+      ],
+      "padding": [
+         0,
+         0,
+         0,
+         0
+      ],
+      "stride": [
+         2,
+         2
+      ],
+      "input_shape": [
+         [
+            1,
+            64,
+            224,
+            224
+         ]
+      ],
+      "output_shape": [
+         1,
+         64,
+         112,
+         112
+      ],
+      "quant_info": {
+         "input_scale1": 0.027252718806266785,
+         "input_zero_point1": 3.4883480072021484,
+         "output_scale": 36.69358668794723,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "input_activation1": "MaxPool_6_input_activation1.npy",
+         "output_activation1": "MaxPool_6_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_3"
+      ],
+      "next_layer": [
+         "Conv_7"
+      ],
+      "ori_name": "quantize_MaxPool_6"
+   },
+   "Conv_7": {
+      "layer_index": 4,
+      "name": "Conv_7",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            64,
+            112,
+            112
+         ],
+         [
+            128,
+            64,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         128,
+         112,
+         112
+      ],
+      "quant_info": {
+         "input_scale1": 0.027252718806266785,
+         "input_zero_point1": 128.0,
+         "output_scale": 69.49371005132963,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_7_k.npy",
+         "b": "Conv_7_b.npy",
+         "input_activation1": "Conv_7_input_activation1.npy",
+         "input_activation2": "Conv_7_input_activation2.npy",
+         "output_activation1": "Conv_7_output_activation1.npy"
+      },
+      "previous_layer": [
+         "MaxPool_6",
+         "constant_features.7.weight"
+      ],
+      "next_layer": [
+         "Conv_10"
+      ],
+      "ori_name": "Relu_9"
+   },
+   "Conv_10": {
+      "layer_index": 5,
+      "name": "Conv_10",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            128,
+            112,
+            112
+         ],
+         [
+            128,
+            128,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         128,
+         112,
+         112
+      ],
+      "quant_info": {
+         "input_scale1": 0.014389791525900364,
+         "input_zero_point1": 128.0,
+         "output_scale": 61.910209533996934,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_10_k.npy",
+         "b": "Conv_10_b.npy",
+         "input_activation1": "Conv_10_input_activation1.npy",
+         "input_activation2": "Conv_10_input_activation2.npy",
+         "output_activation1": "Conv_10_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_7",
+         "constant_features.10.weight"
+      ],
+      "next_layer": [
+         "MaxPool_13"
+      ],
+      "ori_name": "Relu_12"
+   },
+   "MaxPool_13": {
+      "layer_index": 6,
+      "name": "MaxPool_13",
+      "operation": "max_pool2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "pool_size": [
+         2,
+         2
+      ],
+      "padding": [
+         0,
+         0,
+         0,
+         0
+      ],
+      "stride": [
+         2,
+         2
+      ],
+      "input_shape": [
+         [
+            1,
+            128,
+            112,
+            112
+         ]
+      ],
+      "output_shape": [
+         1,
+         128,
+         56,
+         56
+      ],
+      "quant_info": {
+         "input_scale1": 0.01615242473781109,
+         "input_zero_point1": 2.0675103664398193,
+         "output_scale": 61.910209533996934,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "input_activation1": "MaxPool_13_input_activation1.npy",
+         "output_activation1": "MaxPool_13_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_10"
+      ],
+      "next_layer": [
+         "Conv_14"
+      ],
+      "ori_name": "quantize_MaxPool_13"
+   },
+   "Conv_14": {
+      "layer_index": 7,
+      "name": "Conv_14",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            128,
+            56,
+            56
+         ],
+         [
+            256,
+            128,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         256,
+         56,
+         56
+      ],
+      "quant_info": {
+         "input_scale1": 0.01615242473781109,
+         "input_zero_point1": 128.0,
+         "output_scale": 73.16283230317464,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_14_k.npy",
+         "b": "Conv_14_b.npy",
+         "input_activation1": "Conv_14_input_activation1.npy",
+         "input_activation2": "Conv_14_input_activation2.npy",
+         "output_activation1": "Conv_14_output_activation1.npy"
+      },
+      "previous_layer": [
+         "MaxPool_13",
+         "constant_features.14.weight"
+      ],
+      "next_layer": [
+         "Conv_17"
+      ],
+      "ori_name": "Relu_16"
+   },
+   "Conv_17": {
+      "layer_index": 8,
+      "name": "Conv_17",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            256,
+            56,
+            56
+         ],
+         [
+            256,
+            256,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         256,
+         56,
+         56
+      ],
+      "quant_info": {
+         "input_scale1": 0.013668142259120941,
+         "input_zero_point1": 128.0,
+         "output_scale": 96.02723894298849,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_17_k.npy",
+         "b": "Conv_17_b.npy",
+         "input_activation1": "Conv_17_input_activation1.npy",
+         "input_activation2": "Conv_17_input_activation2.npy",
+         "output_activation1": "Conv_17_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_14",
+         "constant_features.17.weight"
+      ],
+      "next_layer": [
+         "Conv_20"
+      ],
+      "ori_name": "Relu_19"
+   },
+   "Conv_20": {
+      "layer_index": 9,
+      "name": "Conv_20",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            256,
+            56,
+            56
+         ],
+         [
+            256,
+            256,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         256,
+         56,
+         56
+      ],
+      "quant_info": {
+         "input_scale1": 0.01041371189057827,
+         "input_zero_point1": 128.0,
+         "output_scale": 63.38437439160868,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_20_k.npy",
+         "b": "Conv_20_b.npy",
+         "input_activation1": "Conv_20_input_activation1.npy",
+         "input_activation2": "Conv_20_input_activation2.npy",
+         "output_activation1": "Conv_20_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_17",
+         "constant_features.20.weight"
+      ],
+      "next_layer": [
+         "MaxPool_23"
+      ],
+      "ori_name": "Relu_22"
+   },
+   "MaxPool_23": {
+      "layer_index": 10,
+      "name": "MaxPool_23",
+      "operation": "max_pool2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "pool_size": [
+         2,
+         2
+      ],
+      "padding": [
+         0,
+         0,
+         0,
+         0
+      ],
+      "stride": [
+         2,
+         2
+      ],
+      "input_shape": [
+         [
+            1,
+            256,
+            56,
+            56
+         ]
+      ],
+      "output_shape": [
+         1,
+         256,
+         28,
+         28
+      ],
+      "quant_info": {
+         "input_scale1": 0.015776759013533592,
+         "input_zero_point1": 2.0194251537323,
+         "output_scale": 63.38437439160868,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "input_activation1": "MaxPool_23_input_activation1.npy",
+         "output_activation1": "MaxPool_23_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_20"
+      ],
+      "next_layer": [
+         "Conv_24"
+      ],
+      "ori_name": "quantize_MaxPool_23"
+   },
+   "Conv_24": {
+      "layer_index": 11,
+      "name": "Conv_24",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            256,
+            28,
+            28
+         ],
+         [
+            512,
+            256,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         28,
+         28
+      ],
+      "quant_info": {
+         "input_scale1": 0.015776759013533592,
+         "input_zero_point1": 128.0,
+         "output_scale": 70.33680459707169,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_24_k.npy",
+         "b": "Conv_24_b.npy",
+         "input_activation1": "Conv_24_input_activation1.npy",
+         "input_activation2": "Conv_24_input_activation2.npy",
+         "output_activation1": "Conv_24_output_activation1.npy"
+      },
+      "previous_layer": [
+         "MaxPool_23",
+         "constant_features.24.weight"
+      ],
+      "next_layer": [
+         "Conv_27"
+      ],
+      "ori_name": "Relu_26"
+   },
+   "Conv_27": {
+      "layer_index": 12,
+      "name": "Conv_27",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            28,
+            28
+         ],
+         [
+            512,
+            512,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         28,
+         28
+      ],
+      "quant_info": {
+         "input_scale1": 0.014217307791113853,
+         "input_zero_point1": 128.0,
+         "output_scale": 73.39310755037813,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_27_k.npy",
+         "b": "Conv_27_b.npy",
+         "input_activation1": "Conv_27_input_activation1.npy",
+         "input_activation2": "Conv_27_input_activation2.npy",
+         "output_activation1": "Conv_27_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_24",
+         "constant_features.27.weight"
+      ],
+      "next_layer": [
+         "Conv_30"
+      ],
+      "ori_name": "Relu_29"
+   },
+   "Conv_30": {
+      "layer_index": 13,
+      "name": "Conv_30",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            28,
+            28
+         ],
+         [
+            512,
+            512,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         28,
+         28
+      ],
+      "quant_info": {
+         "input_scale1": 0.013625257648527622,
+         "input_zero_point1": 128.0,
+         "output_scale": 70.39353639824262,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_30_k.npy",
+         "b": "Conv_30_b.npy",
+         "input_activation1": "Conv_30_input_activation1.npy",
+         "input_activation2": "Conv_30_input_activation2.npy",
+         "output_activation1": "Conv_30_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_27",
+         "constant_features.30.weight"
+      ],
+      "next_layer": [
+         "MaxPool_33"
+      ],
+      "ori_name": "Relu_32"
+   },
+   "MaxPool_33": {
+      "layer_index": 14,
+      "name": "MaxPool_33",
+      "operation": "max_pool2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "pool_size": [
+         2,
+         2
+      ],
+      "padding": [
+         0,
+         0,
+         0,
+         0
+      ],
+      "stride": [
+         2,
+         2
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            28,
+            28
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         14,
+         14
+      ],
+      "quant_info": {
+         "input_scale1": 0.01420584972947836,
+         "input_zero_point1": 1.81834876537323,
+         "output_scale": 70.39353639824262,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "input_activation1": "MaxPool_33_input_activation1.npy",
+         "output_activation1": "MaxPool_33_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_30"
+      ],
+      "next_layer": [
+         "Conv_34"
+      ],
+      "ori_name": "quantize_MaxPool_33"
+   },
+   "Conv_34": {
+      "layer_index": 15,
+      "name": "Conv_34",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            14,
+            14
+         ],
+         [
+            512,
+            512,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         14,
+         14
+      ],
+      "quant_info": {
+         "input_scale1": 0.01420584972947836,
+         "input_zero_point1": 128.0,
+         "output_scale": 74.75936345964251,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_34_k.npy",
+         "b": "Conv_34_b.npy",
+         "input_activation1": "Conv_34_input_activation1.npy",
+         "input_activation2": "Conv_34_input_activation2.npy",
+         "output_activation1": "Conv_34_output_activation1.npy"
+      },
+      "previous_layer": [
+         "MaxPool_33",
+         "constant_features.34.weight"
+      ],
+      "next_layer": [
+         "Conv_37"
+      ],
+      "ori_name": "Relu_36"
+   },
+   "Conv_37": {
+      "layer_index": 16,
+      "name": "Conv_37",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            14,
+            14
+         ],
+         [
+            512,
+            512,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         14,
+         14
+      ],
+      "quant_info": {
+         "input_scale1": 0.013376250863075256,
+         "input_zero_point1": 128.0,
+         "output_scale": 77.03514034456619,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_37_k.npy",
+         "b": "Conv_37_b.npy",
+         "input_activation1": "Conv_37_input_activation1.npy",
+         "input_activation2": "Conv_37_input_activation2.npy",
+         "output_activation1": "Conv_37_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_34",
+         "constant_features.37.weight"
+      ],
+      "next_layer": [
+         "Conv_40"
+      ],
+      "ori_name": "Relu_39"
+   },
+   "Conv_40": {
+      "layer_index": 17,
+      "name": "Conv_40",
+      "operation": "conv2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "kernel_size": [
+         3,
+         3
+      ],
+      "padding": [
+         1,
+         1,
+         1,
+         1
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            14,
+            14
+         ],
+         [
+            512,
+            512,
+            3,
+            3
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         14,
+         14
+      ],
+      "quant_info": {
+         "input_scale1": 0.01298108883202076,
+         "input_zero_point1": 128.0,
+         "output_scale": 15.064739293213592,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Conv_40_k.npy",
+         "b": "Conv_40_b.npy",
+         "input_activation1": "Conv_40_input_activation1.npy",
+         "input_activation2": "Conv_40_input_activation2.npy",
+         "output_activation1": "Conv_40_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_37",
+         "constant_features.40.weight"
+      ],
+      "next_layer": [
+         "MaxPool_43"
+      ],
+      "ori_name": "Relu_42"
+   },
+   "MaxPool_43": {
+      "layer_index": 18,
+      "name": "MaxPool_43",
+      "operation": "max_pool2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "pool_size": [
+         2,
+         2
+      ],
+      "padding": [
+         0,
+         0,
+         0,
+         0
+      ],
+      "stride": [
+         2,
+         2
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            14,
+            14
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         7,
+         7
+      ],
+      "quant_info": {
+         "input_scale1": 0.06638017296791077,
+         "input_zero_point1": 8.496662139892578,
+         "output_scale": 15.064739293213592,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "input_activation1": "MaxPool_43_input_activation1.npy",
+         "output_activation1": "MaxPool_43_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Conv_40"
+      ],
+      "next_layer": [
+         "AveragePool_44"
+      ],
+      "ori_name": "quantize_MaxPool_43"
+   },
+   "AveragePool_44": {
+      "layer_index": 19,
+      "name": "AveragePool_44",
+      "operation": "avg_pool2d",
+      "device": "npu",
+      "input_dtype": [
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "pool_size": [
+         1,
+         1
+      ],
+      "padding": [
+         0,
+         0,
+         0,
+         0
+      ],
+      "stride": [
+         1,
+         1
+      ],
+      "input_shape": [
+         [
+            1,
+            512,
+            7,
+            7
+         ]
+      ],
+      "output_shape": [
+         1,
+         512,
+         7,
+         7
+      ],
+      "quant_info": {
+         "input_scale1": 0.06638017296791077,
+         "input_zero_point1": 8.496662139892578,
+         "output_scale": 15.064739293213592,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "input_activation1": "AveragePool_44_input_activation1.npy",
+         "output_activation1": "AveragePool_44_output_activation1.npy"
+      },
+      "previous_layer": [
+         "MaxPool_43"
+      ],
+      "next_layer": [
+         "Flatten_45"
+      ],
+      "ori_name": "quantize_AveragePool_44"
+   },
+   "Flatten_45": {
+      "layer_index": 20,
+      "name": "Flatten_45",
+      "operation": "reshape",
+      "device": "npu",
+      "input_dtype": [
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "input_shape": [
+         [
+            1,
+            512,
+            7,
+            7
+         ]
+      ],
+      "output_shape": [
+         1,
+         25088
+      ],
+      "file_list": {
+         "input_activation1": "Flatten_45_input_activation1.npy",
+         "output_activation1": "Flatten_45_output_activation1.npy"
+      },
+      "previous_layer": [
+         "AveragePool_44"
+      ],
+      "next_layer": [
+         "Gemm_46"
+      ],
+      "ori_name": "Flatten_45"
+   },
+   "Gemm_46": {
+      "layer_index": 21,
+      "name": "Gemm_46",
+      "operation": "dense",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "input_shape": [
+         [
+            1,
+            25088
+         ],
+         [
+            4096,
+            25088
+         ]
+      ],
+      "output_shape": [
+         1,
+         4096
+      ],
+      "quant_info": {
+         "input_scale1": 0.06638017296791077,
+         "input_zero_point1": 128.0,
+         "output_scale": 29.04979628869692,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Gemm_46_k.npy",
+         "b": "Gemm_46_b.npy",
+         "input_activation1": "Gemm_46_input_activation1.npy",
+         "input_activation2": "Gemm_46_input_activation2.npy",
+         "output_activation1": "Gemm_46_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Flatten_45",
+         "constant_classifier.0.weight"
+      ],
+      "next_layer": [
+         "Gemm_48"
+      ],
+      "ori_name": "Relu_47"
+   },
+   "Gemm_48": {
+      "layer_index": 22,
+      "name": "Gemm_48",
+      "operation": "dense",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "int8",
+      "activation_type": "relu",
+      "activation_attr": null,
+      "input_shape": [
+         [
+            1,
+            4096
+         ],
+         [
+            4096,
+            4096
+         ]
+      ],
+      "output_shape": [
+         1,
+         4096
+      ],
+      "quant_info": {
+         "input_scale1": 0.034423649311065674,
+         "input_zero_point1": 128.0,
+         "output_scale": 32.028230755114954,
+         "output_zero_point": -128.0,
+         "round_type": "round"
+      },
+      "file_list": {
+         "k": "Gemm_48_k.npy",
+         "b": "Gemm_48_b.npy",
+         "input_activation1": "Gemm_48_input_activation1.npy",
+         "input_activation2": "Gemm_48_input_activation2.npy",
+         "output_activation1": "Gemm_48_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Gemm_46",
+         "constant_classifier.3.weight"
+      ],
+      "next_layer": [
+         "Gemm_50"
+      ],
+      "ori_name": "Relu_49"
+   },
+   "Gemm_50": {
+      "layer_index": 23,
+      "name": "Gemm_50",
+      "operation": "dense",
+      "device": "npu",
+      "input_dtype": [
+         "int8",
+         "int8"
+      ],
+      "output_dtype": "float16",
+      "activation_type": null,
+      "activation_attr": null,
+      "input_shape": [
+         [
+            1,
+            4096
+         ],
+         [
+            1000,
+            4096
+         ]
+      ],
+      "output_shape": [
+         1,
+         1000
+      ],
+      "quant_info": {
+         "input_scale1": 0.031222455203533173,
+         "input_zero_point1": 128.0
+      },
+      "file_list": {
+         "k": "Gemm_50_k.npy",
+         "b": "Gemm_50_b.npy",
+         "input_activation1": "Gemm_50_input_activation1.npy",
+         "input_activation2": "Gemm_50_input_activation2.npy",
+         "output_activation1": "Gemm_50_output_activation1.npy"
+      },
+      "previous_layer": [
+         "Gemm_48",
+         "constant_classifier.6.weight"
+      ],
+      "next_layer": [
+         "output0"
+      ],
+      "ori_name": "Gemm_50"
+   }
+}
