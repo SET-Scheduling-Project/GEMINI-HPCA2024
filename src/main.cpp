@@ -1309,24 +1309,6 @@ int main(int argc, char** argv){
 			<< search_index << endl;
 	};
 #endif
-	
-	// Tangram mapping.
-	// mode_control(false, false, true);
-	// scheme = DP_search(SAEngine::nrounds, true, false);
-	// if (scheme != nullptr) {
-	// 	output(0);
-	// 	delete scheme;
-	// }
-
-	// mode_control(true, false, true);
-	// scheme = DP_search(SAEngine::nrounds, true, false);
-	// output(1);
-	// delete scheme;
-	
-	// mode_control(false, true, true);
-	// scheme = DP_search(SAEngine::nrounds, false, false);
-	// output(2);
-	// delete scheme;
 
 	// Gemini mapping.
 	mode_control(false, false, true);
@@ -1335,11 +1317,6 @@ int main(int argc, char** argv){
 		output(3);
 		delete scheme;
 	}
-
-	// mode_control(false, false, true);
-	// scheme = DP_search(SAEngine::nrounds, false, true);
-	// output(4);
-	// delete scheme;
 
 #if FORMAT_OUTPUT
 	fclose(file);
