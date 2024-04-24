@@ -1,2 +1,4 @@
 Please follow the AE Appendix in corresponding HPCA 2024 paper "Gemini: Mapping and Architecture Co-exploration for Large-scale DNN Chiplet Accelerators" to initiate the framework. 
 We supplement the scripts of DSE for 72TOPs, 128TOPs, and 512TOPs.
+
+Many essential foundational components of Gemini are shared with the SET framework from the same project. We are currently updating the architecture and documentation of the SET framework. For urgent inquiries about Gemini, one can refer to the annotations in SET. Additionally, we plan to migrate and update these annotations from SET to Gemini and include comments related to code unique to Gemini.
