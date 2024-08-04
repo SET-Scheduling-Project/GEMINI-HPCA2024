@@ -852,6 +852,15 @@ int main(int argc, char** argv){
 	int mm, nn, xx, yy, ss, bb, rr, ff, xcut, ycut, _serdes_lane, _DRAM_bw, _NoC_bw, _mac_dim, _ul3, total_tops;
 	cin >> mm >> nn >> xx >> yy >> ss >> bb >> rr >> ff >> xcut >> ycut >> _serdes_lane >> _DRAM_bw >> _NoC_bw >> _mac_dim >> _ul3 >> total_tops;
 	// assert(total_tops == 2*xx*yy*_mac_dim*_mac_dim);
+	//mm means core_microarch: 0 means PolarCore (NVDLA-STYLE), which is recommenmanded; 1 means Eyeriss Core.
+	//nn means network choice
+	//xx & yy means the number of cores in the x and y axis, respectively. Default noc topology is mesh.
+	//ss means stride, whose definition can be found in ISCA2023 SET, HPCA2024GEMINI, ASPLOS2019TANGRAM.
+	//bb means batch size (2^n is recommanded).
+	//rr means exploration rounds number, which will be multiplied with a coefficient.
+	//ff means optimization goal, concrete formula can be found in this main.cpp.
+	//xcut & ycut means the chiplet partition granularity at the x and y dimension.
+	//the remaining few parameters represent the architecture parameters as their names.
 	/********************* INPUT *********************/
 	bw_t serdes_lane = _serdes_lane;
 	NoC::DRAM_bw = _DRAM_bw/1024/4;     
