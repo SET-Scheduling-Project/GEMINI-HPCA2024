@@ -1,6 +1,6 @@
 #ifndef LIGHT_PLACEMENT_H
 #define LIGHT_PLACEMENT_H
-
+//This file corresponds to the optimization of spatial mapping, and the corresponding operation operators are in the public functions of Light_placement.
 #include "ltreenode.h"
 #include "partition.h"
 #include <unordered_map>
