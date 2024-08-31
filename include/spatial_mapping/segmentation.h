@@ -3,6 +3,7 @@
 #include "ltreenode.h"
 #include "schnode.h"
 #include <vector>
+//This file corresponds to the dynamic programming search for segmenting a DAG graph. It determines how to segment the graph and then perform spatial mapping optimization segment by segment.
 class Segment_scheme{
     typedef Network::lid_t lid_t;
     public:
