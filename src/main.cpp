@@ -973,7 +973,7 @@ int main(int argc, char** argv){
 	double core_len = sqrt(core_area);
 	double NoP_len_per_core = NoC::NoP_bw / 4 * NoP_len;
 	double PCIe_area = 3000000 * DRAM_bw_each * 4 / 128;
-	double IO_die_area = DRAM_bw_each * 4 / 44.0 * (DDR_PHY_den+DDR_ctrl_den)+ PCIe_area +(compute_die_num==1?0:(NoP_len*NoP_wid* NoC::NoP_bw / 4 *Cluster::ylen*2));//neglect other IOs
+	double IO_die_area = DRAM_bw_each * 4 / 44.0 * (DDR_PHY_den+DDR_ctrl_den)+ PCIe_area +(compute_die_num==1?0:(NoP_len*NoP_wid* NoC::NoP_bw / 4 *Cluster::ylen*2));//neglect other IOs; 44GB/s represents the bandwidth of a GDDR6X channel.
 	double compute_die_area = 0;
 	double core_len_real = core_len;
 	double D2D_area_per_compute=0;
