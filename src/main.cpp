@@ -811,7 +811,7 @@ std::vector<double> buffer(int width, vol_t size) {
 	return access;
 }
 double wafer_util(double area) {
-	if (0 < area <= 25000000) {
+	if (	 area <= 25000000) {
 		return 0.865;
 	}
 	else if (area <= 50000000) {
