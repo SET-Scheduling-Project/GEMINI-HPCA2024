@@ -1008,10 +1008,10 @@ int main(int argc, char** argv){
 	if (NoC::x_cut * NoC::y_cut == 1) {
 		os_ocst_factor = 1;
 	}
-	else if (os_area <= 30 * 30) {
+	else if (os_area <= 30 * 30 * 1000000) {
 		os_ocst_factor = 1.5;
 	}
-	else if (os_area <= 55 * 55) {
+	else if (os_area <= 55 * 55 * 1000000) {
 		os_ocst_factor = 2;
 	}
 	else {
