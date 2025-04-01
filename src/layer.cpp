@@ -65,7 +65,7 @@ vol_t ConvLayer::Workload::ofm_size(len_t batch_size) const{
 }
 
 void ConvLayer::Workload::update_op(){
-	tot_op = C*K*R*S*H*W;
+	tot_op = static_cast<access_t>(C)*K*R*S*H*W;
 }
 
 access_t ConvLayer::Workload::calc_op(len_t batch_size) const{

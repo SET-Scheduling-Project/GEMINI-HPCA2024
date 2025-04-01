@@ -1,4 +1,4 @@
-# Design Space Experiment of 128TOPS
+# Design Space Experiment of 72TOPS
 # Script Usage: ./dse.sh [output_folder]
 
 # Execute `stschedule` once.
@@ -15,21 +15,25 @@ search(){
 experiment() {
     echo '************************* Start Experiment *************************'
     echo "[PROMPT] Check the output in dir $output_path."
-    network_range=(17)
+    network_range=(13)
+    # network_range=(16)
     DRAM_bw_range=(`expr $TOPS / 2` $TOPS `expr $TOPS \* 2` `expr $TOPS \* 4`)
-    # NoC_bw_range=(8 16 32 64)
-    # ul3_range=(256 512 1024 2048 4096)
-    # mac_num_range= //(512 1024 2048 4096)
-    NoC_bw_range=(16 32)
-    ul3_range=(1024 2048)
-    mac_num_range=(2048 4096)
+    NoC_bw_range=(8 16 32 64)
+    ul3_range=(512 1024 2048 4096)
+    mac_num_range=(512 1024 2048 4096)
+    # NoC_bw_range=(16 32)
+    # ul3_range=(1024 2048)
+    # mac_num_range=(2048 4096)
     tech_range=("7" "12")
-    # package_type_range=("OS" "FO" "SI")
-    package_type_range=("OS" "SI")
-    IO_type_range=("Serdes" "UCIe")
+    package_type_range=("OS" "FO" "SI")
+    # package_type_range=("OS" "SI")
+    IO_type_range=("XSR" "USR" "UCIe")
     DDR_type_range=("GDDR6X")
 
     start_time=$(date +%s)
+
+    MAX_PROCESSES=75
+    CURRENT_PROCESSES=0
 
     # tech
     for tech in ${tech_range[*]}
@@ -126,12 +130,18 @@ experiment() {
                                                 touch $temp_path_innerest/$err_log
                                                 touch $temp_path_innerest/$output_point_file
                                                 touch $temp_path_innerest/$output_struct_file
+                                                if [ $CURRENT_PROCESSES -ge $MAX_PROCESSES ]; then
+                                                    wait -n  # 等待一个进程完成
+                                                    CURRENT_PROCESSES=$((CURRENT_PROCESSES - 1))
+                                                fi
 
-                                                search $tech $mm $nn $xx $yy $ss $bb $rr $ff $xcut $ycut $package_type $IO_type $_NoP_bw $DDR_type $_DRAM_bw $_NoC_bw $_mac_num $_ul3 $TOPS "$temp_path_innerest/$output_point_file" "$temp_path_innerest/$output_struct_file" "$temp_path_innerest/$err_log" "$temp_path_innerest/$search_log"
+                                                search $tech $mm $nn $xx $yy $ss $bb $rr $ff $xcut $ycut $package_type $IO_type $_NoP_bw $DDR_type $_DRAM_bw $_NoC_bw $_mac_num $_ul3 $TOPS "$temp_path_innerest/$output_point_file" "$temp_path_innerest/$output_struct_file" "$temp_path_innerest/$err_log" "$temp_path_innerest/$search_log" &
+                                                CURRENT_PROCESSES=$((CURRENT_PROCESSES + 1))
+                                                # sleep 50000
                                             done
                                         done
                                     done
-                                } &
+                                }
                                 done
                             done
                         done
@@ -175,17 +185,17 @@ max_dir_depth=16
 
 # ************************* Other Parameters *************************
 network=(darknet19 vgg resnet50 googlenet resnet101 densenet ires gnmt lstm zfnet transformer transformer_cell pnasnet resnext50 resnet152 bert_block GPT2_prefill_block GPT2_decode_clock)
-# chiplet number : 1 2 4 8 16 32 64
-cut_long=(1 2 2 4 4 8 8)
-cut_short=(1 1 2 2 4 4 8)
+# chiplet number : 1 2 4 9 18 36
+cut_long=(1 2 2 3 6 6)
+cut_short=(1 1 2 3 3 6)
 mm=0
-TOPS=`expr 128 \* 1024`
-rr=150
-bb=64
+TOPS=`expr 72 \* 1024`
+rr=50
+bb=1
 ff=1
 
 # ************************ Execute Experiment ************************
-echo "******************** 128TOPS DSE Start ********************"
+echo "******************** 72TOPS DSE Start ********************"
 echo "[INFO] Check output in dir $output_path."
 echo "[INFO] DSE running..."
 experiment > $output_path/dse.log 2> $output_path/dse.err.log
@@ -196,4 +206,4 @@ echo "[INFO] Summary at $output_path/result.xlsx"
 echo "[INFO] Summary accomplished."
 echo "[INFO] Best Arch found."
 python3 pyscripts/best_arch.py $output_path/result.csv $output_path/best_arch.txt
-echo "******************** 128TOPS DSE Finish *******************"
+echo "******************** 72TOPS DSE Finish *******************"

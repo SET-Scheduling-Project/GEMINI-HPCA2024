@@ -24,6 +24,7 @@ public:
 	static energy_t NoC_hop_cost,NoP_hop_cost, DRAM_acc_cost;
 	static bw_t DRAM_bw, NoC_bw, NoP_bw;
 	static bool interleave;
+	static bool serdes;
 	static bool soc;
 	static bool seperate_IO;//whether IO chiplet is seperate
 	static bool calc_noc_control;

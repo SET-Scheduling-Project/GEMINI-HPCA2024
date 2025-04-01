@@ -14,6 +14,10 @@
 LayerEngine* SchNode::layerMapper =nullptr;
 LayerEngine* SchNode::layerMapper_fast = nullptr;
 len_t SchNode::tot_batch=0;
+double SchNode::frequency = 0;
+bool SchNode::serdes=false;
+int SchNode::serdes_lane_total=0;
+int SchNode::serdes_power=0;
 SchNode::csn_ptr SchNode::root;
 SchNode::wlid_t SchNode::workload_cnt;
 SchNode::tfid_t SchNode::transferid_cnt;
@@ -150,7 +154,7 @@ void SchNode::write_energy_record() const {
 	record.bus = bus_energy;
 	record.mac = mac_energy;
 	record.NoC_hop_cost = noc.get_hop_cost();
-	record.NoP_hop_cost = noc.get_NoP_hop_cost();
+	record.NoP_hop_cost = (serdes? cost.time*serdes_lane_total*serdes_power : noc.get_NoP_hop_cost());
 	record.DRAM_cost = noc.get_tot_DRAM_cost();
 }
 
@@ -241,10 +245,10 @@ bool SchNode::is_DRAM_cut() const{
 }
 
 void SchNode::print_res(std::ostream& os) const{
-	os << cost << ", Ubuf/Buf/Bus/Mac/NoC/DRAM:" << ubuf_energy << '/' << buf_energy << '/' << bus_energy << '/' << mac_energy;
-	os << '/' << noc.get_hop_cost() << '/' << noc.get_cost() - noc.get_hop_cost();
+	os << cost << ", Ubuf/Buf/Bus/Mac/NoC/NoP/DRAM:" << ubuf_energy << '/' << buf_energy << '/' << bus_energy << '/' << mac_energy;
+	os << '/' << noc.get_NoC_hop_cost() << '/' << (serdes? serdes_lane_total*serdes_power*1e9 : noc.get_NoP_hop_cost());
 	energy_t e = cost.energy;
-	e -= ubuf_energy + buf_energy + bus_energy + mac_energy + noc.get_cost();
+	e -= ubuf_energy + buf_energy + bus_energy + mac_energy + noc.get_NoC_hop_cost()+(serdes? cost.time*serdes_lane_total*serdes_power : noc.get_NoP_hop_cost());
 	if(e == 0 && cost.energy == 0) return;
 	if(cost.energy != 0) e /= cost.energy;
 	if(e>1e-8 || e<-1e-8){
@@ -284,7 +288,9 @@ bool LNode::search(bool usefillin, const Light_placement &place){
 	ubuf_energy = res.extUbufEnergy;
 	place_sch = std::move(res.place);
 	tileSch = res.tileSch;
+	tileSch.cost.time/=frequency;
 	cost = res.totCost;
+	cost.time /=frequency;
 	return true;
 }
 
@@ -297,7 +303,7 @@ bool LNode::search_fast() {
 	tot_data = LNode::tot_batch / num_batch * (wgt_buf + ifm_buf);
 	fmap_buf = ifm_buf + ofm_ubuf_vol;
 	cost = res.totCost;
-	cost.time /= cluster.num_cores();
+	cost.time /= cluster.num_cores()*frequency;
 	return true;
 }
 
@@ -408,8 +414,11 @@ void LNode::searchLayer(bool usefillin, const Light_placement &place){
 	mac_energy = tileSch.mac * cluster.num_cores();
 	bool is_seg = (parent == nullptr) || parent->is_DRAM_cut();
 	if(is_seg){
-		cycle_t noc_time = noc.get_time();
+		cycle_t noc_time = noc.get_time()/frequency;
 		cost.time = MAX(cost.time, noc_time);
+		if(serdes){
+			cost.energy+=cost.time*serdes_lane_total*serdes_power;
+		}
 	}
 }
 
@@ -535,13 +544,13 @@ void LNode::print_struct(std::string pad, std::ostream& os) const{
 	os << pad << layert.name() << ' ' << num_batch << ' ' << place_sch;
 	os << " util:" << tileSch.util*100 << '/' << tileSch.tot_util*100;
 	os << ' ' << cost << " Ubuf/Buf/Bus/Mac:" << ubuf_energy << '/' << buf_energy << '/' << bus_energy << '/' << mac_energy;
-	os << " NoC energy = " << noc.get_hop_cost() << " DRAM energy = " << noc.get_tot_DRAM_cost();
+	os << " NoC energy = " << noc.get_NoC_hop_cost() << " DRAM energy = " << noc.get_tot_DRAM_cost();
 	os << ' ' << noc; //<< ' ' << buf_usage << ' ' << wgt_usage << ' ' << ifm_usage;
 	os << ' ' << layert.layer().real_ifmap_shape().tot_size(num_batch);
 	os << '/' << layert.layer().weight_size();
 	os << '/' << layert.layer().ofmap_shape().tot_size(num_batch);
 	
-	os << " NoCtime = " << noc.get_time() << " NocBW = " << NoC::NoC_bw << " Computing_time = " << tileSch.cost.time;
+	os << " NoCtime = " << noc.get_time()/frequency << " NocBW = " << NoC::NoC_bw << " Computing_time = " << tileSch.cost.time;
 	os << "DDR_access 0 1 2 3 =" << noc.get_DRAM_acc(0) << "," << noc.get_DRAM_acc(1) << "," << noc.get_DRAM_acc(2) << "," << noc.get_DRAM_acc(3) << ",";
 	os << std::endl;
 	if(parent == nullptr || parent->is_DRAM_cut()){
@@ -675,9 +684,9 @@ void Cut::print_struct(std::string pad, std::ostream& os) const{
 	os << pad << ((type == NodeType::S)?'S':'T');
 	os << ' ' << num_batch << '/' << num_bgrp;
 	os << ' ' << cost << " Ubuf/Buf/Bus/Mac:" << ubuf_energy << '/' << buf_energy << '/' << bus_energy << '/' << mac_energy;
-	os << " NoC energy = " << noc.get_NoC_hop_cost() << " NoP energy = " << noc.get_NoP_hop_cost() << " DRAM energy = " << noc.get_tot_DRAM_cost();
+	os << " NoC energy = " << noc.get_NoC_hop_cost() << " NoP energy = " << (serdes? cost.time*serdes_lane_total*serdes_power : noc.get_NoP_hop_cost()) << " DRAM energy = " << noc.get_tot_DRAM_cost();
 	os << ' ' << noc; //<< ' ' << buf_usage << ' ' << wgt_usage << ' ' << ifm_usage;
-	os << " NoCtime = " << noc.get_time() << " NocBW = " << NoC::NoC_bw ;
+	os << " NoCtime = " << noc.get_time()/frequency << " NocBW = " << NoC::NoC_bw ;
 	os << " DDR_access 0 1 2 3 =" << noc.get_DRAM_acc(0) << "," << noc.get_DRAM_acc(1) << "," << noc.get_DRAM_acc(2) << "," << noc.get_DRAM_acc(3) << ",";
 	os << std::endl;
 	pad += '\t';
@@ -847,8 +856,11 @@ void Cut::construct(LTreeNode* node, const std::vector<Light_placement>& place){
 	mac_energy *= num_bgrp;
 	// Needs to bound total time with DRAM access.
 	if(is_seg){
-		cycle_t noc_time = noc.get_time();
+		cycle_t noc_time = noc.get_time()/frequency;
 		cost.time = MAX(cost.time, noc_time);
+		if(serdes){
+			cost.energy+=cost.time*serdes_lane_total*serdes_power;
+		}
 	}
 }
 
@@ -955,8 +967,11 @@ void TCut::construct(LTreeNode* node, bool usefillin, const Light_placement& pla
 	mac_energy *= num_bgrp;
 	// Needs to bound total time with DRAM access.
 	if(is_seg){
-		cycle_t noc_time = noc.get_time();
+		cycle_t noc_time = noc.get_time()/frequency;
 		cost.time = MAX(cost.time, noc_time);
+		if(serdes){
+			cost.energy+=cost.time*serdes_lane_total*serdes_power;
+		}
 	}
 }
 
@@ -1101,6 +1116,9 @@ void TCut::construct_fast(LTreeNode* node) {
 	if (is_seg) {
 		//cycle_t noc_time = noc.get_time();
 		cost.time = MAX(cost.time, DIVCEIL(dram_access, (4 * DRAM_bw)));
+		if(serdes){
+			cost.energy+=cost.time*serdes_lane_total*serdes_power;
+		}
 	}
 }
 /*
@@ -1227,6 +1245,9 @@ void SCut::construct_fast(LTreeNode* node){
 	if(is_seg){
 		//cycle_t noc_time = noc.get_time();
 		cost.time = MAX(cost.time, DIVCEIL(dram_access, (4 * DRAM_bw)));
+		if(serdes){
+			cost.energy+=cost.time*serdes_lane_total*serdes_power;
+		}
 	}
 }
 void SCut::construct(LTreeNode* node, bool usefillin, const Light_placement& place) {
@@ -1330,8 +1351,11 @@ void SCut::construct(LTreeNode* node, bool usefillin, const Light_placement& pla
 	mac_energy *= num_bgrp;
 	// Needs to bound total time with DRAM access.
 	if (is_seg) {
-		cycle_t noc_time = noc.get_time();
+		cycle_t noc_time = noc.get_time()/frequency;
 		cost.time = MAX(cost.time, noc_time);
+		if(serdes){
+			cost.energy+=cost.time*serdes_lane_total*serdes_power;
+		}
 	}
 }
 /*

@@ -22,6 +22,7 @@ def find_best_arch(csv_file_name, output_file=None):
     min_cost_row = df.loc[df['cost'].idxmin()]
     
     # Get the relevant data from the row
+    tech = min_cost_row['tech']
     mm = format_number(min_cost_row['mm'])
     xx = format_number(min_cost_row['xx'])
     yy = format_number(min_cost_row['yy'])
@@ -29,14 +30,17 @@ def find_best_arch(csv_file_name, output_file=None):
     ff = format_number(min_cost_row['ff'])
     xcut = format_number(min_cost_row['xcut'])
     ycut = format_number(min_cost_row['ycut'])
-    nop = format_number(min_cost_row['nop'])
-    ddr = format_number(min_cost_row['ddr'])
+    package_type = min_cost_row['package_type']
+    IO_type = min_cost_row['IO_type']
+    nop = format_number(min_cost_row['nop_bw'])
+    ddr_type = min_cost_row['ddr_type']
+    ddr = format_number(min_cost_row['ddr_bw'])
     noc = format_number(min_cost_row['noc'])
     mac = format_number(min_cost_row['mac'])
     ul3 = format_number(min_cost_row['ul3'])
     tops = format_number(min_cost_row['tops'])
 
-    numbers = (mm, xx, yy, ss, ff, xcut, ycut, nop, ddr, noc, mac, ul3, tops)
+    numbers = (tech, mm, xx, yy, ss, ff, xcut, ycut, package_type, IO_type, nop, ddr_type, ddr, noc, mac, ul3, tops)
     if (output_file == None):
         output_file = "best_arch.txt"
     with open(output_file, 'w') as file:
@@ -45,9 +49,13 @@ def find_best_arch(csv_file_name, output_file=None):
         print(f"Arch parameters have been writed into {output_file}")
 
     # Format and output the result
-    print(f'Best Arch is: core number of X line= {xx}.')
+    print(f'Best Arch is: tech = {tech},')
+    print(f'core number of X line= {xx},')
     print(f'core number of Y line = {yy}.')
     print(f'XCut= {xcut}, YCut= {ycut}.')
+    print(f'package type = {package_type},')
+    print(f'IO type = {IO_type},')
+    print(f'DDR type = {ddr_type}')
     print(f'NoP bandwidth = {nop} GB/s.')
     print(f'NoC bandwidth = {noc} GB/s.')
     print(f'DDR bandwidth = {int(ddr / 1024)} GB/s.')

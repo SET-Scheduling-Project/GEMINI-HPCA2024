@@ -45,6 +45,9 @@ public:
 	typedef std::uint32_t jsonindex_t;
 	static bw_t DRAM_bw;
 	static vol_t ubuf;
+	static bool serdes;
+	static int serdes_lane_total;
+	static int serdes_power;//Unit is Watt
 	static bool cluster_base;
 	struct SchCost{
 		energy_t energy;
@@ -142,6 +145,7 @@ public:
 	static LayerEngine* layerMapper;
 	static LayerEngine* layerMapper_fast;
 	static len_t tot_batch;
+	static double frequency;
 	static energy_breakdown record;
 
 	virtual void print_struct(std::string pad = "", std::ostream& os = std::cout) const =0;

@@ -40,7 +40,7 @@ DEF_MAX(bw);
 
 typedef double cost_t;
 DEF_MAX(cost);
-
+typedef std::uint16_t lid_t;
 typedef std::int16_t cidx_t;
 
 typedef std::uint8_t memidx_t;

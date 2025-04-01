@@ -15,6 +15,7 @@ bw_t NoC::NoP_bw;
 bool NoC::interleave;
 bool NoC::seperate_IO;
 bool NoC::soc;
+bool NoC::serdes = false;
 bool NoC::calc_noc_control;
 mlen_t NoC::DRAM_num;
 mlen_t NoC::DRAM_router_num;
@@ -222,7 +223,7 @@ energy_t NoC::get_NoC_hop_cost() const {
 
 energy_t NoC::get_NoP_hop_cost() const {
 
-	return NoP_tot_hops * NoP_hop_cost;
+	return serdes? 0:NoP_tot_hops * NoP_hop_cost;
 }
 
 energy_t NoC::get_tot_DRAM_cost() const {
@@ -231,7 +232,7 @@ energy_t NoC::get_tot_DRAM_cost() const {
 
 energy_t NoC::get_cost() const{
 	//std::cout << "GC " << NoC_tot_hops << ' ' << tot_DRAM_acc << std::endl;
-	return NoC_tot_hops * NoC_hop_cost + NoP_tot_hops * NoP_hop_cost + tot_DRAM_acc*DRAM_acc_cost;
+	return NoC_tot_hops * NoC_hop_cost + (serdes?0:NoP_tot_hops * NoP_hop_cost) + tot_DRAM_acc*DRAM_acc_cost;
 }
 // TODO: add NoC time.
 cycle_t NoC::get_dram_time() const{
@@ -314,7 +315,6 @@ NoC::hop_t NoC::multicastCalc(pos_t src, const pos_t* dst, cidx_t len, vol_t siz
 	}
 	h += MAX(src.x, dst[len-1].x) - MIN(src.x, dst[0].x);
 	h_p_temp = NoC::soc?0 : NoP_link_calc(MAX(src.x, dst[len - 1].x), MIN(src.x, dst[0].x));
-	h -= h_p_temp;
 	NoP_tot_hops += h_p_temp * size;
 	for(cidx_t i=1; i<=len; ++i){
 		if(i<len && dst[i].x == cur_x) continue;
@@ -328,7 +328,6 @@ NoC::hop_t NoC::multicastCalc(pos_t src, const pos_t* dst, cidx_t len, vol_t siz
 		}
 		h += MAX(src.y, dst[i-1].y) - MIN(src.y, min_y);
 		h_p_temp = NoC::soc ? 0 : NoP_link_calc(MAX(src.y, dst[i - 1].y), MIN(src.y, min_y));
-		h -= h_p_temp;
 		NoP_tot_hops += h_p_temp * size;
 		if(i == len) break;
 		cur_x = dst[i].x;

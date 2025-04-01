@@ -30,5 +30,11 @@ extern const Network transformer_cell;
 extern const Network PNASNet;
 extern const Network resnext50;
 
+// extern const Network BERT;
+extern const Network BERT_block;
+// extern const Network GPT2_prefill;
+extern const Network GPT2_prefill_block;
+// extern const Network GPT2_decode;
+extern const Network GPT2_decode_block;
 Network gen_network(std::string model_name);
 #endif // NNS_H
