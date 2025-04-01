@@ -1,7 +1,41 @@
-Please follow the AE Appendix in corresponding HPCA 2024 paper "Gemini: Mapping and Architecture Co-exploration for Large-scale DNN Chiplet Accelerators" to initiate the framework. 
-We supplement the scripts of DSE for 72TOPs, 128TOPs, and 512TOPs.
+# Gemini Update  
 
+We have iterated on Gemini, expanding it into a larger template. In the latest version, Gemini supports different process technologies, DRAM, D2D Interfaces, and packaging technologies. Currently, the latest Gemini supports:  
+
+- **Two process technologies**: 7nm and 12nm  
+- **Three D2D Interfaces**: XSR, USR, and UCIe  
+- **Three types of DDR**: LPDDR5, GDDR6X, and HBM  
+- **Three packaging technologies**: Organic Substrate (OS), Redistribution Layer(RDL), and Silicon Interposer(SI)  
+
+For more details, please refer to the code.  
+
+# How to Run the Project  
+
+First, clone the entire project from GitHub:  
+
+```bash
+git clone https://github.com/SET-Scheduling-Project/GEMINI-HPCA2024.git
+```
+Then, navigate to the project directory:
+```bash
+cd GEMINI-HPCA2024
+make
+```
+After building, the executable target will be generated at ./build/stschedule.
+
+Next, install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
+Now, you can run the DSE script, such as:
+```bash
+./72tops_dse13.sh
+```
+Wait for the execution to complete, and you will obtain the architecture exploration results. You can modify the DSE files to perform your own design space exploration experiments.
+# Clarification
 Many essential foundational components of Gemini are shared with the SET framework from the same project. We are currently updating the architecture and documentation of the SET framework. For urgent inquiries about Gemini, one can refer to the comments in SET (updated at 2025.2.1). Additionally, we plan to migrate and update these annotations from SET to Gemini and include comments related to code unique to Gemini.
+
+For the calculation of the packaging cost in this article, we referred to the article "Chiplet Actuary: A Quantitative Cost Model and Multi-Chiplet Architecture Exploration" published in 2022 DAC and had relevant discussions with the author. We would like to thank the author of the article.
 
 # Citations ###
 ```
