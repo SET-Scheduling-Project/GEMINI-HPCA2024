@@ -122,7 +122,7 @@ LayerScheme StdLayerEngine::fillin(LNode* curNode, const Light_placement &place,
 			calcNoC(layerSch.noc, placeSch, place, curNode, true);
 			SchNode::SchCost curCostAll = curCost;
 			curCostAll.energy += layerSch.noc.get_cost();
-			cycle_t nocTime = layerSch.noc.get_dram_time();
+			cycle_t nocTime = layerSch.noc.get_time();
 			curCostAll.time = MAX(curCostAll.time, nocTime);
 			layerSch.totCost = curCostAll;
 			layerSch.extUbufEnergy = ubufTotal;
